@@ -12,54 +12,10 @@ class IsuController extends Controller
      */
     public function index()
     {
-        return view('livewire.tetapan.isu.index');
+        return view('tetapan.isu');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        return view('livewire.tetapan.isu.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Isu $isu)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Isu $isu)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Isu $isu)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Isu $isu)
-    {
-        //
-    }
 }

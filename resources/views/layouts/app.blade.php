@@ -1,36 +1,74 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html data-theme="pastel" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Laravel') }}</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            <livewire:layout.navigation />
+    {{-- NAVBAR mobile only --}}
+    <x-mary-nav class="lg:hidden" sticky>
+        <x-slot:brand>
+            <div class="pt-5 ml-5">App</div>
+        </x-slot:brand>
+        <x-slot:actions>
+            <label class="mr-3 lg:hidden" for="main-drawer">
+                <x-mary-icon class="cursor-pointer" name="o-bars-3" />
+            </label>
+        </x-slot:actions>
+    </x-mary-nav>
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+    {{-- MAIN --}}
+    <x-mary-main full-width>
+        {{-- SIDEBAR --}}
+        <x-slot:sidebar class="bg-base-100 lg:bg-inherit" drawer="main-drawer" collapsible>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+            {{-- BRAND --}}
+
+            <div class="flex justify-center pt-5">
+                <h1 class="text-lg font-bold"> PMS (V2)</h1>
+            </div>
+
+            {{-- MENU --}}
+            <x-mary-menu activate-by-route>
+
+                {{-- User --}}
+                @if ($user = auth()->user())
+                    <x-mary-menu-separator />
+
+                    <x-mary-list-item class="-mx-2 !-my-2 rounded" value="name" :item="$user" sub-value="email"
+                        no-separator no-hover>
+                        <x-slot:actions>
+                            <x-mary-button class="btn-circle btn-ghost btn-xs" icon="o-power" tooltip-left="logoff"
+                                no-wire-navigate link="/logout" />
+                        </x-slot:actions>
+                    </x-mary-list-item>
+
+                    <x-mary-menu-separator />
+                @endif
+
+                <x-mary-menu-item title="Dashboard" icon="o-sparkles" link="/" />
+                <x-mary-menu-sub title="Tetapan" icon="o-cog-6-tooth">
+                    <x-mary-menu-item title="Isu" icon="o-wifi" link="{{ route('tetapan.isu') }}" />
+                    <x-mary-menu-item title="Archives" icon="o-archive-box" link="####" />
+                </x-mary-menu-sub>
+
+            </x-mary-menu>
+        </x-slot:sidebar>
+
+        {{-- The `$slot` goes here --}}
+        <x-slot:content>
+            {{ $slot }}
+        </x-slot:content>
+    </x-mary-main>
+
+    {{-- Toast --}}
+    <x-mary-toast />
+</body>
+
 </html>

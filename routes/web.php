@@ -13,7 +13,9 @@ Route::view('/', 'welcome');
 //     }
 // )->middleware(['auth', 'verified']);
 
-Route::resource('/tetapan/isu', IsuController::class);
+Route::get('tetapan/isu', [IsuController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('tetapan.isu');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

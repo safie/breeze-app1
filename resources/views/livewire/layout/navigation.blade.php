@@ -36,7 +36,7 @@ new class extends Component {
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('isu.create')" :active="request()->routeIs('isu.create')" wire:navigate>
+                    <x-nav-link :href="route('tetapan.isu')" :active="request()->routeIs('isu.create')" wire:navigate>
                         {{ __('ISU') }}
                     </x-nav-link>
                 </div>
