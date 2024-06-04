@@ -9,62 +9,64 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
+<body class="font-sans antialiased bg-base-200/50 dark:bg-base-200">
 
-    {{-- NAVBAR mobile only --}}
-    <x-mary-nav class="lg:hidden" sticky>
+    {{-- The navbar with `sticky` and `full-width` --}}
+    <x-mary-nav sticky full-width>
+
         <x-slot:brand>
-            <div class="pt-5 ml-5">App</div>
-        </x-slot:brand>
-        <x-slot:actions>
-            <label class="mr-3 lg:hidden" for="main-drawer">
-                <x-mary-icon class="cursor-pointer" name="o-bars-3" />
+            {{-- Drawer toggle for "main-drawer" --}}
+            <label class="lg:hidden mr-3" for="main-drawer">
+                <x-icon class="cursor-pointer" name="heroicon-s-bars-4" />
             </label>
+
+            {{-- Brand --}}
+            <div>App</div>
+        </x-slot:brand>
+
+        {{-- Right side actions --}}
+        <x-slot:actions>
+            <x-mary-button class="btn-ghost btn-sm" label="Messages" icon="o-envelope" link="###" responsive />
+            <x-mary-button class="btn-ghost btn-sm" label="Notifications" icon="o-bell" link="###" responsive />
+            {{-- <x-mary-theme-toggle /> --}}
         </x-slot:actions>
     </x-mary-nav>
 
     {{-- MAIN --}}
-    <x-mary-main full-width>
-        {{-- SIDEBAR --}}
-        <x-slot:sidebar class="bg-base-100 lg:bg-inherit" drawer="main-drawer" collapsible>
+    <x-mary-main with-nav full-width>
 
-            {{-- BRAND --}}
+        {{-- This is a sidebar that works also as a drawer on small screens --}}
+        {{-- Notice the `main-drawer` reference here --}}
+        <x-slot:sidebar class="bg-base-200" drawer="main-drawer" collapsible>
 
-            <div class="flex justify-center pt-5">
-                <h1 class="text-lg font-bold"> PMS (V2)</h1>
-            </div>
+            {{-- User --}}
+            @if ($user = auth()->user())
+                <x-mary-list-item class="pt-2" value="name" :item="$user" sub-value="email" no-separator
+                    no-hover>
+                    <x-slot:actions>
+                        <x-mary-button class="btn-circle btn-ghost btn-xs" wire:click="logout" icon="o-power"
+                            tooltip-left="logoff" no-wire-navigate />
+                    </x-slot:actions>
+                </x-mary-list-item>
 
-            {{-- MENU --}}
+                <x-mary-menu-separator />
+            @endif
+
+            {{-- Activates the menu item when a route matches the `link` property --}}
             <x-mary-menu activate-by-route>
-
-                {{-- User --}}
-                @if ($user = auth()->user())
-                    <x-mary-menu-separator />
-
-                    <x-mary-list-item class="-mx-2 !-my-2 rounded" value="name" :item="$user" sub-value="email"
-                        no-separator no-hover>
-                        <x-slot:actions>
-                            <x-mary-button class="btn-circle btn-ghost btn-xs" icon="o-power" tooltip-left="logoff"
-                                no-wire-navigate link="/logout" />
-                        </x-slot:actions>
-                    </x-mary-list-item>
-
-                    <x-mary-menu-separator />
-                @endif
-
-                <x-mary-menu-item title="Dashboard" icon="o-sparkles" link="/" />
+                <x-mary-menu-item title="Dashboard" icon="o-home" link="/" />
+                <x-mary-menu-item title="Messages" icon="o-envelope" link="###" />
                 <x-mary-menu-sub title="Tetapan" icon="o-cog-6-tooth">
-                    <x-mary-menu-item title="Isu" icon="o-wifi" link="{{ route('tetapan.isu') }}" />
+                    <x-mary-menu-item title="Isu" icon="o-paint-brush" link="{{ route('tetapan.isu') }}" />
                     <x-mary-menu-item title="Archives" icon="o-archive-box" link="####" />
                 </x-mary-menu-sub>
-
             </x-mary-menu>
         </x-slot:sidebar>
-
         {{-- The `$slot` goes here --}}
-        <x-slot:content>
+        <x-slot:content class="bg-base-300">
             {{ $slot }}
         </x-slot:content>
+
     </x-mary-main>
 
     {{-- Toast --}}

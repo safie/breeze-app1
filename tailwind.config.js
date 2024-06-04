@@ -24,7 +24,7 @@ export default {
     ],
 
     daisyui: {
-    themes: ["light", "dark", "cupcake","emerald","pastel"],
+    themes: ["light", "dark", "cupcake","emerald","pastel","retro"],
     },
 
     // darkMode: 'class',
