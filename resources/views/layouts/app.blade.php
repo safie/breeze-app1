@@ -16,7 +16,7 @@
 
         <x-slot:brand>
             {{-- Drawer toggle for "main-drawer" --}}
-            <label class="lg:hidden mr-3" for="main-drawer">
+            <label class="mr-3 lg:hidden" for="main-drawer">
                 <x-icon class="cursor-pointer" name="heroicon-s-bars-4" />
             </label>
 
